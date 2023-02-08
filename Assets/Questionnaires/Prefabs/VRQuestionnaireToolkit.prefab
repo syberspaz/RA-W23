@@ -33,6 +33,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8697000388396706260}
   m_Father: {fileID: 0}
@@ -59,15 +60,18 @@ MonoBehaviour:
   Condition: AB
   ControllerTactileFeedbackOnOff: 0
   SoundOnOff: 0
-  vibratingDurationHovering: 0.05
-  vibratingFrequencyHovering: 1
-  vibratingAmplitudeHovering: 5
-  soundClipHovering: {fileID: 8300000, guid: d7d08c266925c5446947a004fde53aa0, type: 3}
-  vibratingDurationSelecting: 0.05
-  vibratingFrequencySelecting: 200
-  vibratingAmplitudeSelecting: 1
-  soundClipSelecting: {fileID: 8300000, guid: 7b660b21fad7af34e806c3f3c4eb8868, type: 3}
-  rememberTransformValues: 0
+  ConfigurationMode: 1
+  AlsoConsolidateResults: 1
+  VibratingDurationForHovering: 0.05
+  VibratingFrequencyForHovering: 1
+  VibratingAmplitudeForHovering: 5
+  SoundClipForHovering: {fileID: 0}
+  HoveringVolume: 1
+  VibratingDurationForSelecting: 0.05
+  VibratingFrequencyForSelecting: 200
+  VibratingAmplitudeForSelecting: 1
+  SoundClipForSelecting: {fileID: 0}
+  SelectingVolume: 1
 --- !u!114 &8697000387260259645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,8 +95,7 @@ MonoBehaviour:
   JsonInputPath_9: 
   JsonInputPath_10: 
   Questionnaires: []
-  questionnaire: {fileID: 1977427658288308199, guid: 4c6cc58c027d248458484da2093c22bc,
-    type: 3}
+  questionnaire: {fileID: 1977427658288308199, guid: 4c6cc58c027d248458484da2093c22bc, type: 3}
   QuestionRecTest: {fileID: 8697000387260259619}
 --- !u!223 &8697000387260259646
 Canvas:
@@ -137,6 +140,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 1
 --- !u!114 &8697000387260259647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,6 +294,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8697000387260259619}
   m_RootOrder: 0
@@ -306,11 +311,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1b011cae3bf814d840b3ee9acb236f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StorePath: /Questionnaires/Data/Answers/
   FileName: answers
   Delimiter: ','
+  Filetype: 0
+  SaveToLocal: 1
+  StorePath: /Questionnaires/Data/Answers/
   UseGlobalPath: 0
-  Filetyp: 0
+  SaveToServer: 0
+  TargetURI: http://www.example-server.com/survey-results.php
   QuestionnaireFinishedEvent:
     m_PersistentCalls:
       m_Calls: []
