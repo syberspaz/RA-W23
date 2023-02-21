@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class AirtableIntegrationTest : MonoBehaviour
 {
-    [Header("Airtable information")]
+    [Header("Airtable Environment Configuration")]
+    public string apiVersion;
+    public string appKey;
+    public string apiKey;
+
+    [Header("Table Information")]
     public string tableName;
-    public string recordId;
+
+    void Start()
+    {
+        AirtableIntegrationFunctions.SetEnvironment(apiVersion, appKey, apiKey);
+    }
 }
