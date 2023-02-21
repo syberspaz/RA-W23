@@ -353,9 +353,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3ba4e00a60e8934994f530763a4eb15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_dataFormat: F3
+  m_manualOverride: 1
   m_targetRenderer: {fileID: 0}
   m_targetFilter: {fileID: 0}
-  m_dataFormat: F3
+  m_manualMesh: {fileID: 4300000, guid: d0c255d07fd68f14b94e55d388e7e6bb, type: 3}
+  m_manualMaterial: {fileID: 2100000, guid: 3637b758ff163493f8bb8b6d7e96d7ae, type: 2}
 --- !u!114 &7115910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,7 +378,7 @@ MonoBehaviour:
     m_changeJumpThreshold: 1
     m_sampleTime: 0.25
     m_nextSampleTime: 0
-  m_target: {fileID: 7115906}
+  m_target: {fileID: 8180837}
 --- !u!114 &7115911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,7 +398,7 @@ MonoBehaviour:
     m_changeJumpThreshold: 1
     m_sampleTime: 0.25
     m_nextSampleTime: 0
-  m_target: {fileID: 7115906}
+  m_target: {fileID: 8180837}
 --- !u!114 &7115912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,7 +418,7 @@ MonoBehaviour:
     m_changeJumpThreshold: 1
     m_sampleTime: 0.25
     m_nextSampleTime: 0
-  m_target: {fileID: 7115906}
+  m_target: {fileID: 8180837}
 --- !u!114 &7115913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,6 +542,11 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+--- !u!4 &8180837 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5686134208185136528, guid: 1fd3a7c43c8190f4d8c167ebde694364, type: 3}
+  m_PrefabInstance: {fileID: 8180833}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &32641930
 GameObject:
   m_ObjectHideFlags: 0
@@ -2307,9 +2315,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3ba4e00a60e8934994f530763a4eb15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_dataFormat: F3
+  m_manualOverride: 1
   m_targetRenderer: {fileID: 0}
   m_targetFilter: {fileID: 0}
-  m_dataFormat: F3
+  m_manualMesh: {fileID: 4300000, guid: ca20b3907ff1c794cb89c1ad2cce8282, type: 3}
+  m_manualMaterial: {fileID: 2100000, guid: 3637b758ff163493f8bb8b6d7e96d7ae, type: 2}
 --- !u!114 &943908326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2329,7 +2340,7 @@ MonoBehaviour:
     m_changeJumpThreshold: 1
     m_sampleTime: 0.25
     m_nextSampleTime: 0
-  m_target: {fileID: 943908322}
+  m_target: {fileID: 2060281726}
 --- !u!114 &943908327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2349,7 +2360,7 @@ MonoBehaviour:
     m_changeJumpThreshold: 1
     m_sampleTime: 0.25
     m_nextSampleTime: 0
-  m_target: {fileID: 943908322}
+  m_target: {fileID: 2060281726}
 --- !u!114 &943908328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2369,7 +2380,7 @@ MonoBehaviour:
     m_changeJumpThreshold: 1
     m_sampleTime: 0.25
     m_nextSampleTime: 0
-  m_target: {fileID: 943908322}
+  m_target: {fileID: 2060281726}
 --- !u!114 &943908329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2427,7 +2438,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 2668230704854388954, guid: 344f45f3df92f8c438ccf2bf05e163e4, type: 3}
 --- !u!23 &1042124443
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2477,7 +2488,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1042124441}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 2668230704854388954, guid: 344f45f3df92f8c438ccf2bf05e163e4, type: 3}
 --- !u!4 &1042124445
 Transform:
   m_ObjectHideFlags: 0
@@ -2505,9 +2516,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3ba4e00a60e8934994f530763a4eb15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_dataFormat: F3
+  m_manualOverride: 0
   m_targetRenderer: {fileID: 1042124443}
   m_targetFilter: {fileID: 1042124444}
-  m_dataFormat: F3
+  m_manualMesh: {fileID: 0}
+  m_manualMaterial: {fileID: 0}
 --- !u!114 &1042124447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4795,6 +4809,11 @@ MonoBehaviour:
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
   m_CancelButton: Cancel
+--- !u!4 &2060281726 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 109434732395451519, guid: 65847589f926b734d9eaed6e25f0046b, type: 3}
+  m_PrefabInstance: {fileID: 579421135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2076211996
 GameObject:
   m_ObjectHideFlags: 0

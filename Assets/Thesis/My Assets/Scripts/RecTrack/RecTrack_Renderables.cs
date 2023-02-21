@@ -44,10 +44,15 @@ namespace Thesis.RecTrack
 
 
         //--- Public Variables ---//
+        [Header("General Tracking Variables")]
+        public string m_dataFormat = "F3";
+        public bool m_manualOverride = false;
+        [Header("Automatic Tracking Variables")]
         public MeshRenderer m_targetRenderer;
         public MeshFilter m_targetFilter;
-        public string m_dataFormat = "F3";
-
+        [Header("Manual Tracking Variables")]
+        public Mesh m_manualMesh;
+        public Material m_manualMaterial;
 
 
         //--- Private Variables ---//
@@ -56,22 +61,30 @@ namespace Thesis.RecTrack
         private Material m_currentMaterial;
         private Color m_currentColour;
 
-
-
         //--- IRecordable Interface ---//
         public void StartRecording(float _startTime)
         {
-            // Ensure the targets are not null
-            Assert.IsNotNull(m_targetFilter, "m_targetFilter needs to be set for the track on object [" + this.gameObject.name + "]");
-            Assert.IsNotNull(m_targetRenderer, "m_targetRenderer needs to be set for the track on object [" + this.gameObject.name + "]");
-
             // Init the private variables 
-            // NOTE: Use the shared mesh and material to prevent a duplicate from being created and removing the mesh path references
-            // NOTE: The meshes need to be marked as read and write in the import settings!
             m_dataPoints = new List<Data_Renderables>();
-            m_currentMesh = m_targetFilter.sharedMesh;
-            m_currentMaterial = m_targetRenderer.sharedMaterial;
-            m_currentColour = m_targetRenderer.sharedMaterial.color;
+            if (!m_manualOverride)
+            {
+                // Ensure the targets are not null
+                Assert.IsNotNull(m_targetFilter, "m_targetFilter needs to be set for the track on object [" + this.gameObject.name + "]");
+                Assert.IsNotNull(m_targetRenderer, "m_targetRenderer needs to be set for the track on object [" + this.gameObject.name + "]");
+
+                // NOTE: Use the shared mesh and material to prevent a duplicate from being created and removing the mesh path references
+                // NOTE: The meshes need to be marked as read and write in the import settings!
+                m_currentMesh = m_targetFilter.sharedMesh;
+                m_currentMaterial = m_targetRenderer.sharedMaterial;
+                m_currentColour = m_targetRenderer.sharedMaterial.color;
+            }
+            else
+            {
+                m_currentMesh = m_manualMesh;
+                m_currentMaterial = m_manualMaterial;
+                m_currentColour = m_manualMaterial.color;
+            }
+
 
             // Record the first data point
             RecordData(_startTime);
@@ -85,6 +98,25 @@ namespace Thesis.RecTrack
 
         public void UpdateRecording(float _currentTime)
         {
+            if (m_manualOverride)
+            {
+                //if any of the manual override data has changed, update the values and record the change
+                if (m_currentMesh != m_manualMesh ||
+                    m_currentMaterial != m_manualMaterial ||
+                    m_currentColour != m_manualMaterial.color)
+                {
+                    // Update the values
+                    m_currentMesh = m_manualMesh;
+                    m_currentMaterial = m_manualMaterial;
+                    m_currentColour = m_manualMaterial.color;
+
+                    // Record the changes to the values
+                    RecordData(_currentTime);
+                }
+
+                return;
+            }
+
             // If any of the renderables have changed, update the values and record the change
             if (m_currentMesh != m_targetFilter.sharedMesh ||
                 m_currentMaterial != m_targetRenderer.sharedMaterial ||
@@ -132,6 +164,8 @@ namespace Thesis.RecTrack
 
         public void SetupDefault()
         {
+            m_manualOverride = false;
+
             // Setup this recording track by grabbing default values from this object
             m_targetFilter = GetComponent<MeshFilter>();
             m_targetRenderer = GetComponent<MeshRenderer>();
