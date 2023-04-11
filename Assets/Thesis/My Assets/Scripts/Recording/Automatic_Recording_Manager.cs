@@ -23,6 +23,7 @@ namespace Thesis.Recording
         [Header("Controls")]
         [SerializeField] private bool record = false;
         [SerializeField] private float startDelay = 0.0f;
+        [SerializeField] private bool displayDialogue = false;
 
 
         private Recording_Manager m_recManager;
@@ -93,11 +94,11 @@ namespace Thesis.Recording
 
 #if UNITY_EDITOR
             // Show a dialog to indicate if the saving worked
-            if (staticSaveWorked && dynamicSaveWorked)
+            if (staticSaveWorked && dynamicSaveWorked && displayDialogue)
             {
                 EditorUtility.DisplayDialog("Save Successful", "Saving the static file and the dynamic file worked correctly!", "Continue");
             }
-            else
+            else if (displayDialogue)
             {
                 EditorUtility.DisplayDialog("Save Failed", "There was an error when saving the static file and the dynamic file!", "Continue");
             }

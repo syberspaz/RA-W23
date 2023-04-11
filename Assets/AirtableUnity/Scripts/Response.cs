@@ -30,6 +30,7 @@ namespace AirtableUnity.PX
             try
             {
                 var possibleResponse = JsonConvert.DeserializeObject<AirtableResponse<T>>(Message);
+                Debug.Log(Message);
 
                 return possibleResponse;
             }

@@ -35,6 +35,8 @@ namespace VRQuestionnaireToolkit
         public GameObject questionnaire;
         public RectTransform QuestionRecTest;
 
+        public bool loadOnStart = true;
+
         private JSONArray _qData;
         private JSONArray _qConditions;
         private JSONArray _qOptions;
@@ -58,6 +60,8 @@ namespace VRQuestionnaireToolkit
             numberQuestionnaires = 1;
             Questionnaires = new List<GameObject>();
             JsonInputFiles = new List<string>();
+
+            if (!loadOnStart) return;
 
             if (JsonInputPath_1 != "")
             {
@@ -107,8 +111,14 @@ namespace VRQuestionnaireToolkit
             for (int i = 1; i < Questionnaires.Count; i++)
                 Questionnaires[i].SetActive(false);
 
-            Questionnaires[0].SetActive(true);
+            if(Questionnaires.Count > 0) Questionnaires[0].SetActive(true);
+        }
 
+        public void ManualLoadNewSurvey(string filepath)
+        {
+            GenerateNewQuestionnaire(filepath);
+            for (int i = 0; i < Questionnaires.Count; i++) Questionnaires[i].SetActive(false);
+            Questionnaires[Questionnaires.Count - 1].SetActive(true);
         }
 
         void GenerateNewQuestionnaire(string inputPath)

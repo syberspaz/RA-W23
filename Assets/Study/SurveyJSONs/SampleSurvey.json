@@ -1,0 +1,44 @@
+{
+  "qTitle": "SampleSurvey",
+  "qInstructions": "Please answer all the questions",
+  "qId": "SampleSurvey",
+  "questions": [
+    {
+      "pId": "Page 1",
+      "qType": "linearSlider",
+      "qData": [
+        {
+          "qId": "Q1",
+          "qText": "Sample Scale",
+          "qMin": "0",
+          "qMinLabel": "Hate",
+          "qMax": "5",
+          "qMaxLabel": "Love",
+          "qMandatory": "true"
+        }
+      ]
+    },
+    {
+      "pId": "Page 2",
+      "qType": "radio",
+      "qData": [
+        {
+          "qId": "Q2",
+          "qText": "Sample Multiple Choice",
+          "qMandatory": "true",
+          "qOptions": [
+            "",
+            "",
+            "hi",
+            "hello",
+            "greetings",
+            "",
+            ""
+          ]
+        }
+      ]
+    }
+  ],
+  "qMessage": "Thank you for finishing the survey",
+  "qAcknowledgments": "test flow by Ame Gilham"
+}

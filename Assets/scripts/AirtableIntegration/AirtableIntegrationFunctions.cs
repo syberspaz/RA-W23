@@ -14,14 +14,27 @@ public class AirtableIntegrationFunctions : MonoBehaviour
     {
         get
         {
+            //try to get the instance
             if(instance == null)
             {
-                GameObject go = new GameObject("Airtable Integration Functions");
-                instance = go.AddComponent<AirtableIntegrationFunctions>();
-                DontDestroyOnLoad(go);
+                //if there isn't one, try to get an object of the same type
+                instance = FindObjectOfType<AirtableIntegrationFunctions>();
+                if(instance == null)
+                {
+                    //if there is no object of the type loaded, create one 
+                    GameObject go = new GameObject("Airtable Integration Functions");
+                    instance = go.AddComponent<AirtableIntegrationFunctions>();
+                }
             }
             return instance;
         }
+    }
+
+    static string s_apiVersion, s_appKey, s_apiKey;
+
+    private void OnDestroy()
+    {
+        if(instance == this) instance = null;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -31,30 +44,44 @@ public class AirtableIntegrationFunctions : MonoBehaviour
     //sets up the airtable enviroment
     public static void SetEnvironment(string apiVersion, string appKey, string apiKey)
     {
-        AirtableUnity.PX.Proxy.SetEnvironment(apiVersion, appKey, apiKey);
+        s_apiVersion = apiVersion;
+        s_appKey = appKey;
+        s_apiKey = apiKey;
+
+        SetEnviroment();
+    }
+
+    static void SetEnviroment()
+    {
+        AirtableUnity.PX.Proxy.SetEnvironment(s_apiVersion, s_appKey, s_apiKey);
     }
 
     //retrives all of the records in the given table
     public static void ListAllRecords<T>(string tableName, Action<List<BaseRecord<T>>> callback)
     {
+        SetEnviroment();
         Instance.ListAllRecordsImpl(tableName, callback);
     }
 
     //retrives the specificed record from the given table
     public static void GetRecord<T>(string tableName, string recordId, Action<BaseRecord<T>> callback)
     {
+        SetEnviroment();
         Instance.GetRecordImpl(tableName, recordId, callback);
     }
 
     //creates a new record from a json string
     public static void CreateRecord<T>(string tableName, string newDataJson, Action<BaseRecord<T>> callback)
     {
+        SetEnviroment();
         Instance.CreateRecordImpl(tableName, newDataJson, callback);
     }
 
     //creates a new record from a base record object
     public static void CreateRecord<T>(string tableName, BaseRecord<T> newDataObject, Action<BaseRecord<T>> callback)
     {
+        SetEnviroment();
+
         var json = new
         {
             fields = newDataObject.fields
@@ -66,18 +93,21 @@ public class AirtableIntegrationFunctions : MonoBehaviour
     //Deletes the specificed record from the given table
     public static void DeleteRecord<T>(string tableName, string recordId, Action<BaseRecord<T>> callback)
     {
+        SetEnviroment();
         Instance.DeleteRecordImpl<T>(tableName, recordId, callback);
     }
 
     //Updates the specified record with new data from a json string
     public static void UpdateRecord<T>(string tableName, string recordId, string newDataJson, Action<BaseRecord<T>> callback)
     {
+        SetEnviroment();
         Instance.UpdateRecordImpl(tableName, recordId, newDataJson, callback);
     }
 
     //Updates the specified record with new data from a base record object
     public static void UpdateRecord<T>(string tableName, string recordId, BaseRecord<T> newDataObject, Action<BaseRecord<T>> callback)
     {
+        SetEnviroment();
         var json = new
         {
             fields = newDataObject.fields

@@ -57,7 +57,7 @@ namespace AirtableUnity.PX
         
         private static string BaseRequestString(string tableName)
         {
-            return $"{ApiVersion}/{AppKey}/{tableName}/";
+            return $"{ApiVersion}/{AppKey}/{tableName}";
         }
 
         private static UnityWebRequest GetRequest(string url, Method requestMethod, string data = null)
@@ -68,6 +68,7 @@ namespace AirtableUnity.PX
             request.SetRequestMethod(requestMethod);
             request.SetRequestHeaders(new Dictionary<string, string>(){
                 { "Content-Type", "application/json;charset=utf-8" },
+                { "Authorization", $"Bearer {ApiKey}" }
                 //{ "Cache-Control", "max-age=0, no-cache, no-store" },
                 //{ "Pragma", "no-cache" }
             });
@@ -120,7 +121,7 @@ namespace AirtableUnity.PX
                         Debug.LogError(response.Message + "\n" + request.url);
                     }
 
-                    if (request.isNetworkError)
+                    if (request.result == UnityWebRequest.Result.ConnectionError)
                     {
                         response.Success = false;
                         response.Message += "\n" + request.error;
@@ -175,9 +176,9 @@ namespace AirtableUnity.PX
             var baseUri = BaseRequestString(tableName);
             
             if(string.IsNullOrEmpty(offset))
-                relativeUri = $"{baseUri}?api_key={ApiKey}";
+                relativeUri = $"{baseUri}";
             else
-                relativeUri = $"{baseUri}?api_key={ApiKey}&offset={offset}";
+                relativeUri = $"{baseUri}/offset={offset}";
             
             return GetRequest(EndPoint_Airtable, relativeUri, Method.GET);
         }
@@ -203,7 +204,7 @@ namespace AirtableUnity.PX
         
         private static UnityWebRequest GetRecord(string tableName, string recordId)
         {
-            var relativeUri = $"{BaseRequestString(tableName)}{recordId}/?api_key={ApiKey}";
+            var relativeUri = $"{BaseRequestString(tableName)}/{recordId}";
             
             return GetRequest(EndPoint_Airtable, relativeUri, Method.GET);
         }
@@ -229,7 +230,7 @@ namespace AirtableUnity.PX
         
         private static UnityWebRequest CreateRecord(string tableName, string recordToCreate)
         {
-            var relativeUri = $"{BaseRequestString(tableName)}?api_key={ApiKey}";
+            var relativeUri = $"{BaseRequestString(tableName)}";
             
             return GetRequest(EndPoint_Airtable, relativeUri, Method.POST, recordToCreate);
         }
@@ -255,7 +256,7 @@ namespace AirtableUnity.PX
         
         private static UnityWebRequest UpdateRecord(string tableName, string recordId, string recordToCreate, bool hardUpdate)
         {
-            var relativeUri = $"{BaseRequestString(tableName)}{recordId}/?api_key={ApiKey}";
+            var relativeUri = $"{BaseRequestString(tableName)}/{recordId}";
             
             return GetRequest(EndPoint_Airtable, relativeUri, hardUpdate ? Method.PUT : Method.PATCH, recordToCreate);
         }
@@ -281,7 +282,7 @@ namespace AirtableUnity.PX
         
         private static UnityWebRequest DeleteRecord(string tableName, string recordId)
         {
-            var relativeUri = $"{BaseRequestString(tableName)}{recordId}/?api_key={ApiKey}";
+            var relativeUri = $"{BaseRequestString(tableName)}/{recordId}";
             
             return GetRequest(EndPoint_Airtable, relativeUri, Method.DELETE);
         }

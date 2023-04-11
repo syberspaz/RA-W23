@@ -54,6 +54,7 @@ namespace VRQuestionnaireToolkit
         private string[] csvTitleRow = new string[4];
 
         public UnityEvent QuestionnaireFinishedEvent;
+        public ActivateOnSurveyFinish onFinished;
 
         // Use this for initialization
         void Start()
@@ -113,6 +114,8 @@ namespace VRQuestionnaireToolkit
             }
 
 
+            
+
             _pageFactory = GameObject.FindGameObjectWithTag("QuestionnaireFactory");
             _csvRows = new List<string[]>();
 
@@ -154,10 +157,12 @@ namespace VRQuestionnaireToolkit
                                 if (_questionnaireID != "SSQ")
                                 {
                                     csvTemp[3] = "" + (j + 1);
+                                    StudyManager.Instance.SetRadioAnswerObjectValue(_questionnaireID, csvTemp[2], j + 1);
                                 }
                                 else
                                 {
                                     csvTemp[3] = "" + j;
+                                    StudyManager.Instance.SetRadioAnswerObjectValue(_questionnaireID, csvTemp[2], j);
                                 }
                             }
                         }
@@ -233,7 +238,9 @@ namespace VRQuestionnaireToolkit
                                 .SliderList.Count;
                             j++)
                         {
-                            csvTemp[3] = "" + _pageFactory.GetComponent<PageFactory>().QuestionList[i][j].GetComponentInChildren<UnityEngine.UI.Slider>().value;
+                            float value = _pageFactory.GetComponent<PageFactory>().QuestionList[i][j].GetComponentInChildren<UnityEngine.UI.Slider>().value;
+                            csvTemp[3] = "" + value;
+                            StudyManager.Instance.SetAnswerObjectValue(_questionnaireID, csvTemp[2], (int)value);
                         }
                         _csvRows.Add(csvTemp);
                     }
@@ -250,18 +257,22 @@ namespace VRQuestionnaireToolkit
                                 .DropdownList.Count;
                             j++)
                         {
-                            csvTemp[3] = "" + _pageFactory.GetComponent<PageFactory>().QuestionList[i][j].GetComponentInChildren<TMP_Dropdown>().value;
+                            int value = _pageFactory.GetComponent<PageFactory>().QuestionList[i][j].GetComponentInChildren<TMP_Dropdown>().value;
+                            csvTemp[3] = "" + value;
+                            List<TMP_Dropdown.OptionData> data = _pageFactory.GetComponent<PageFactory>().QuestionList[i][j].GetComponentInChildren<TMP_Dropdown>().options;
+                            StudyManager.Instance.SetAnswerObjectValue(_questionnaireID, csvTemp[2], data[value].text);
                         }
                         _csvRows.Add(csvTemp);
                     }
                 }
             }
             #endregion
-
             // disable all GameObjects (except the last page) 
             for (int i = 1; i < _pageFactory.GetComponent<PageFactory>().NumPages - 1; i++)
                 _pageFactory.GetComponent<PageFactory>().PageList[i].SetActive(false);
 
+            StudyManager.Instance.PostAnswerObjectToServer(_questionnaireID);
+            onFinished.gameObject.SetActive(true);
 
             //-----Processing responses into the specified data format-----//
 
@@ -390,7 +401,7 @@ namespace VRQuestionnaireToolkit
             {
                 yield return www.SendWebRequest();
 
-                if (www.isHttpError || www.isNetworkError)
+                if (www.result == UnityWebRequest.Result.ProtocolError || www.result == UnityWebRequest.Result.ConnectionError)
                 {
                     Debug.LogError(www.error + "\nPlease check the validity of the server URI.");
                 }
@@ -412,7 +423,7 @@ namespace VRQuestionnaireToolkit
             UnityWebRequest www = new UnityWebRequest(uri);
             yield return www.SendWebRequest();
 
-            if (www.isHttpError || www.isNetworkError)
+            if (www.result == UnityWebRequest.Result.ProtocolError || www.result == UnityWebRequest.Result.ConnectionError)
             {
                 Debug.LogError(www.error + "\nPlease check the validity of the server URI.");
             }
