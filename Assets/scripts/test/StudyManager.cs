@@ -31,7 +31,8 @@ public class StudyManager : MonoBehaviour
 
     [Header("Airtable Environment Configuration")]
     public string apiVersion;
-    public string appKey;
+    public string airtableURL;
+    private string appKey;
     public string apiKey;
 
     public string configTable = "Config";
@@ -63,6 +64,9 @@ public class StudyManager : MonoBehaviour
 
     public void SetEnvironment()
     {
+        string urlWithoutHTTPS = airtableURL.Replace("https://", "");
+        string[] urlportions = urlWithoutHTTPS.Split("/");
+        appKey = urlportions[1];
         AirtableIntegrationFunctions.SetEnvironment(apiVersion, appKey, apiKey);
     }
 
