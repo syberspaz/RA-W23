@@ -124,7 +124,7 @@ The XR Origin prefab can be used to give you a default camera, hands, and intera
 
 The actual content of your custom scenes is up to you however, the most important parts for the tool is that the scene is properly added to the build settings, and that is named the same way as it is listed in the associated segment in the Config table on Airtable, and that when the scene is done the next segment function on the study manager is called. This can be called in code using **StudyManager.Instance.NextSegment();** a StudyAcessFunctions script with a public NextSegment function that calls the StudyManager’s next segment also exists for use with for example UI buttons (this is used in the prebuilt SurveyScene). 
 
-# Using Echo Plus
+### Using Echo Plus
 
 Finally the tool integrates [Echo Plus](https://github.com/syberspaz/Echo_Plus) to allow you to record what participants do in your custom scenes and play it back later. **It is not currently possible for Echo Plus files to be automatically saved to airtable** however if wish to you can create another table and manually upload files. 
 
