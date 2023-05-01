@@ -89,6 +89,7 @@ Starting with the table to list questions, while you can name this table whateve
 **ScaleHighLabel** - *Text* - The label for the high end of a scale question, the label for the maximum value. Can be left blank for any Type other than Scale. 
 
 ![image](images/image5.png)
+
 ![image](images/image3.png)
 *Setup example of a scale question and what it looks like in unity.*
 
@@ -97,6 +98,7 @@ Starting with the table to list questions, while you can name this table whateve
 **Option1** through **Option7** - *Text* - From here there should be 7 different fields for different options named Option with the number for that option written out afterwards, these should be filled consecutively up to the number you specified in the option count field. Can be left blank for Types other than Select One or Dropdown, and for options that aren’t being used. 
 
 ![image](images/image1.png)
+
 ![image](images/images4.png)
 *Setup example of a Select One question and what it looks like in Unity.*
 
