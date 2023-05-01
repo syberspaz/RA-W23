@@ -6,7 +6,7 @@ To start you need to create an airtable base with at least 2 tables.
 
 The first table, by default called *StudyDetails* will have 4 fields with a single entry and look like the following. 
 
-Insert Image
+![image](images/image2.png)
 
 If you like you can add more fields to include additional metadata about your study, the most important part is that an integer number field named CurrentPariticpantID spelled that exact way exists as it will be used to identify the participant in survey answer tables later. 
 
