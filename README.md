@@ -100,7 +100,7 @@ Starting with the table to list questions, while you can name this table whateve
 
 ![image](images/image1.png)
 
-![image](images/images4.png)
+![image](images/image4.png)
 
 *Setup example of a Select One question and what it looks like in Unity.*
 
