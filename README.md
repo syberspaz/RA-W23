@@ -34,7 +34,7 @@ It needs the following fields, remember the names need to be exact.
 
 The resulting config table should look something like this. 
 
-Insert Image
+![image](images/image6.png)
 
 You can use any combination of surveys and custom scenes in any order you like as long as it’s specified in the config file. 
 
@@ -88,19 +88,21 @@ Starting with the table to list questions, while you can name this table whateve
 
 **ScaleHighLabel** - *Text* - The label for the high end of a scale question, the label for the maximum value. Can be left blank for any Type other than Scale. 
 
-Insert Image
+![image](images/image5.png)
+![image](images/image3.png)
 *Setup example of a scale question and what it looks like in unity.*
 
 **OptionCount** - *Number (Integer)* - The number of options available for a select one or dropdown question, should be between 1 and 7 (the system only supports a max of 7 options per question). Can be left blank for Types other than Select One or Dropdown. 
 
 **Option1** through **Option7** - *Text* - From here there should be 7 different fields for different options named Option with the number for that option written out afterwards, these should be filled consecutively up to the number you specified in the option count field. Can be left blank for Types other than Select One or Dropdown, and for options that aren’t being used. 
 
-Insert Image
+![image](images/image1.png)
+![image](images/images4.png)
 *Setup example of a Select One question and what it looks like in Unity.*
 
 The final table should end up looking something like this example. 
 
-Insert Image
+![image](images/image8.png)
 
 From there you can make an answer table for this survey. The answer table is not a fixed format but is instead based on your question. 
 
@@ -110,7 +112,7 @@ From there, there should be one field for each question in the question table. *
 
 Thus an answer table for the full question table in the screenshot above would look like this. 
 
-Insert Image
+![image](images/image7.png)
 
 With each of those entries having been generated from responses received in unity and automatically uploaded using the table names specified in the Config table. 
 
