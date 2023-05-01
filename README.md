@@ -91,6 +91,7 @@ Starting with the table to list questions, while you can name this table whateve
 ![image](images/image5.png)
 
 ![image](images/image3.png)
+
 *Setup example of a scale question and what it looks like in unity.*
 
 **OptionCount** - *Number (Integer)* - The number of options available for a select one or dropdown question, should be between 1 and 7 (the system only supports a max of 7 options per question). Can be left blank for Types other than Select One or Dropdown. 
@@ -100,6 +101,7 @@ Starting with the table to list questions, while you can name this table whateve
 ![image](images/image1.png)
 
 ![image](images/images4.png)
+
 *Setup example of a Select One question and what it looks like in Unity.*
 
 The final table should end up looking something like this example. 
