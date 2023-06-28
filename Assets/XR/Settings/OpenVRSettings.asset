@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a32bfe54d957ec4581fa4a630f1647a, type: 3}
-  m_Name: Open VR Settings
+  m_Name: OpenVRSettings
   m_EditorClassIdentifier: 
   PromptToUpgradePackage: 1
   PromptToUpgradePreviewPackages: 1
   SkipPromptForVersion: 
   StereoRenderingMode: 1
   InitializationType: 1
-  EditorAppKey: application.generated.unity.raw23.exe
+  EditorAppKey: application.generated.unity.raw23.1224085376.exe
   ActionManifestFileRelativeFilePath: 
   MirrorView: 2
   HasCopiedDefaults: 0
