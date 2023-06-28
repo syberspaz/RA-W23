@@ -32,6 +32,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -49,9 +50,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoStart: 1
-  ApiVersion: v0
-  AppKey: appdnn9LtBJ65C86f
-  ApiKey: key72iwxvgWuOVXJL
+  ApiVersion: 
+  AppKey: 
+  ApiKey: 
 --- !u!114 &6352173289137666626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76539e2e8d92ebd42a654e76b61a86c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TableName: Records
+  TableName: WeatherTable
 --- !u!114 &8766905944066068390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,8 +78,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e90750015855cf489ba6b59a27e6c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TableName: Records
-  RecordId: 
+  TableName: WeatherTable
+  RecordId: recnrKp7BbQOarpCm
 --- !u!114 &7158949621873082479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,9 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 656b2cc87c5d4804682885932e0db080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TableName: Records
-  NewRecordJson: "{\n  \"fields\": {\n    \"Description\": \"Tem que ter mudado\",\n
-    \   \"Long Description\": \"Nova coisa aqui\"\n  }\n}"
+  TableName: WeatherTable
+  NewRecordJson: "{\n  \"fields\": {\n    \"Description\": \"Tem que ter mudado\",\n   
+    \"Long Description\": \"Nova coisa aqui\"\n  }\n}"
 --- !u!114 &1941434714518583476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,9 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62c4526b1df50447b4a43425082c802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TableName: Records
-  RecordId: 
-  NewRecordJson: "{\n  \"fields\": {\n    \"Description\": \"rerezinho\"\n  }\n}"
+  TableName: WeatherTable
+  RecordId: recnrKp7BbQOarpCm
+  NewRecordJson: "{\n  \"fields\": {\n    \"Data\": 999\n  }\n}"
 --- !u!114 &8078522160360735009
 MonoBehaviour:
   m_ObjectHideFlags: 0

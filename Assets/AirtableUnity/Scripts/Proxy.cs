@@ -35,6 +35,11 @@ namespace AirtableUnity.PX
             if(!string.IsNullOrEmpty(apiVersion) && !string.IsNullOrEmpty(AppKey) && !string.IsNullOrEmpty(ApiKey))
                 Debug.Log("Airtable Unity - Environment prepared successfully");
         }
+
+        public static bool CheckEnvironment(string apiVersion, string appKey, string apiKey)
+        {
+            return ApiVersion == apiVersion && AppKey == appKey && ApiKey == apiKey;
+        }
         #endregion
 
         #region Base Requests
@@ -57,7 +62,7 @@ namespace AirtableUnity.PX
         
         private static string BaseRequestString(string tableName)
         {
-            return $"{ApiVersion}/{AppKey}/{tableName}";
+            return $"{ApiVersion}/{AppKey}/{tableName}/";
         }
 
         private static UnityWebRequest GetRequest(string url, Method requestMethod, string data = null)
@@ -68,15 +73,15 @@ namespace AirtableUnity.PX
             request.SetRequestMethod(requestMethod);
             request.SetRequestHeaders(new Dictionary<string, string>(){
                 { "Content-Type", "application/json;charset=utf-8" },
-                { "Authorization", $"Bearer {ApiKey}" }
                 //{ "Cache-Control", "max-age=0, no-cache, no-store" },
                 //{ "Pragma", "no-cache" }
             });
-
+            /*
             Debug.Log("[UnitWebRequest]\n" +
                 "Url: " + url + "\n" +
                 "Method: " + requestMethod.ToString() + "\n" +
                 "UploadHandler: " + data);
+            */
             return request;
         }
         #endregion
@@ -121,12 +126,20 @@ namespace AirtableUnity.PX
                         Debug.LogError(response.Message + "\n" + request.url);
                     }
 
-                    if (request.result == UnityWebRequest.Result.ConnectionError)
+                    if(request.result == UnityWebRequest.Result.ConnectionError)
                     {
                         response.Success = false;
                         response.Message += "\n" + request.error;
                         Debug.LogError(response.Message + "\n" + request.url);
                     }
+
+                    /*
+                    if (request.isNetworkError)
+                    {
+                        response.Success = false;
+                        response.Message += "\n" + request.error;
+                        Debug.LogError(response.Message + "\n" + request.url);
+                    }*/
 
                     List<InternalError> errorsFound = InternalErrorHandler.GetPossibleErrors(response);
                     response.InternalErrors = errorsFound;
@@ -169,16 +182,44 @@ namespace AirtableUnity.PX
 
             outputActionRecords?.Invoke(recordsToReturn);
         }
-        
+
+        public static IEnumerator ListAllRecordsCo<T>(string tableName, Action<List<string>> outputActionRecords = null)
+        {
+            var recordsToReturn = new List<BaseRecord<T>>();
+            string curOffset = "";
+
+            do
+            {
+                yield return ListRecords(tableName, curOffset).SendWebRequest(
+                    (response) =>
+                    {
+                        var recordsFound = response?.GetAirtableData<T>()?.records;
+
+                        if (recordsFound?.Count > 0)
+                            recordsToReturn.AddRange(recordsFound);
+
+                        curOffset = response?.GetAirtableData<T>()?.offset;
+                    });
+            } while (!string.IsNullOrEmpty(curOffset));
+
+            List<string> recordIDs = new List<string>();
+            foreach (var item in recordsToReturn)
+            {
+                recordIDs.Add(item.id);
+            }
+
+            outputActionRecords?.Invoke(recordIDs);
+        }
+
         private static UnityWebRequest ListRecords(string tableName, string offset = "")
         {
             var relativeUri = "";
             var baseUri = BaseRequestString(tableName);
             
             if(string.IsNullOrEmpty(offset))
-                relativeUri = $"{baseUri}";
+                relativeUri = $"{baseUri}?api_key={ApiKey}";
             else
-                relativeUri = $"{baseUri}/offset={offset}";
+                relativeUri = $"{baseUri}?api_key={ApiKey}&offset={offset}";
             
             return GetRequest(EndPoint_Airtable, relativeUri, Method.GET);
         }
@@ -190,21 +231,113 @@ namespace AirtableUnity.PX
         {
             var recordToReturn = new BaseRecord<T>();
 
+            Response rs = null;
+
             yield return GetRecord(tableName, recordId).SendWebRequest(
                 (response) =>
                 {
                     var recordFound = response?.GetAirtableRecord<T>();
 
+                    rs = response;
+
+                    Debug.Log("TEST1: " + response.Message);
+
                     if (recordFound != null)
                         recordToReturn = recordFound;
                 });
 
+            string msg = rs.Message;
+
+            int fieldInd = msg.IndexOf("\"fields\"");
+
+            string[] fields = { };
+
+            if (fieldInd >= 0)
+            {
+                fieldInd += 10;
+                string subMsg = msg.Substring(fieldInd, msg.Length - fieldInd - 2);
+
+                Debug.Log("TEST: " + subMsg);
+
+                fields = subMsg.Split(',');
+            }
+
             outputActionRecords?.Invoke(recordToReturn);
         }
+
         
+        public static IEnumerator GetRecordField<T>(string tableName, string recordId, Action<Dictionary<string, string>> outputActionRecords = null)
+        {
+            var recordToReturn = new BaseRecord<T>();
+
+            Response rs = null;
+
+            yield return GetRecord(tableName, recordId).SendWebRequest(
+                (response) =>
+                {
+                    var recordFound = response?.GetAirtableRecord<T>();
+
+                    rs = response;
+
+                    if (recordFound != null)
+                        recordToReturn = recordFound;
+                });
+
+            string msg = rs.Message;
+
+            int fieldInd = msg.IndexOf("\"fields\"");
+
+            string[] fields = { };
+            Dictionary<string, string> fieldDict = new Dictionary<string, string>();
+
+            if (fieldInd >= 0)
+            {
+                fieldInd += 10;
+                string subMsg = msg.Substring(fieldInd, msg.Length - fieldInd - 2);
+
+                fields = subMsg.Split(',');
+
+                foreach (string str in fields)
+                {
+                    int dataInd = str.IndexOf("\":");
+                    string basedStr = str.Replace("\"", "");
+
+                    fieldDict.Add(basedStr.Substring(0, dataInd - 1), basedStr.Substring(dataInd, basedStr.Length - dataInd));
+                }
+            }
+
+            outputActionRecords?.Invoke(fieldDict);
+        }
+
+        public static IEnumerator GetRecordAssetBundle<T>(string assetBundleUrl, Action<GameObject> callback)
+        {
+            GameObject gameObject = null;
+
+            UnityWebRequest request = UnityWebRequestAssetBundle.GetAssetBundle(assetBundleUrl);
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+            else
+            {
+                AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(request);
+
+                if (bundle != null)
+                {
+                    gameObject = bundle.LoadAsset<GameObject>(bundle.GetAllAssetNames()[0]);
+                    bundle.Unload(false);
+
+                    callback?.Invoke(gameObject);
+                }
+            }
+        }
+
         private static UnityWebRequest GetRecord(string tableName, string recordId)
         {
-            var relativeUri = $"{BaseRequestString(tableName)}/{recordId}";
+            var relativeUri = $"{BaseRequestString(tableName)}{recordId}/?api_key={ApiKey}";
             
             return GetRequest(EndPoint_Airtable, relativeUri, Method.GET);
         }
@@ -230,7 +363,7 @@ namespace AirtableUnity.PX
         
         private static UnityWebRequest CreateRecord(string tableName, string recordToCreate)
         {
-            var relativeUri = $"{BaseRequestString(tableName)}";
+            var relativeUri = $"{BaseRequestString(tableName)}?api_key={ApiKey}";
             
             return GetRequest(EndPoint_Airtable, relativeUri, Method.POST, recordToCreate);
         }
@@ -256,7 +389,7 @@ namespace AirtableUnity.PX
         
         private static UnityWebRequest UpdateRecord(string tableName, string recordId, string recordToCreate, bool hardUpdate)
         {
-            var relativeUri = $"{BaseRequestString(tableName)}/{recordId}";
+            var relativeUri = $"{BaseRequestString(tableName)}{recordId}/?api_key={ApiKey}";
             
             return GetRequest(EndPoint_Airtable, relativeUri, hardUpdate ? Method.PUT : Method.PATCH, recordToCreate);
         }
@@ -282,7 +415,7 @@ namespace AirtableUnity.PX
         
         private static UnityWebRequest DeleteRecord(string tableName, string recordId)
         {
-            var relativeUri = $"{BaseRequestString(tableName)}/{recordId}";
+            var relativeUri = $"{BaseRequestString(tableName)}{recordId}/?api_key={ApiKey}";
             
             return GetRequest(EndPoint_Airtable, relativeUri, Method.DELETE);
         }

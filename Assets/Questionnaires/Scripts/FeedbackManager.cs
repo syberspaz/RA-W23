@@ -9,7 +9,7 @@ namespace VRQuestionnaireToolkit
 {
     public class FeedbackManager : MonoBehaviour
     {        
-        public SteamVR_Action_Vibration HapticAction;
+        //public SteamVR_Action_Vibration HapticAction;
 
         // To later access the boolean state of tactile/sound feedback.
         private StudySetup _studySetup;
@@ -36,8 +36,8 @@ namespace VRQuestionnaireToolkit
         {
             try
             {
-                HapticAction.Execute(0, duration, frequency, amplitude, SteamVR_Input_Sources.LeftHand);
-                HapticAction.Execute(0, duration, frequency, amplitude, SteamVR_Input_Sources.RightHand);
+                //HapticAction.Execute(0, duration, frequency, amplitude, SteamVR_Input_Sources.LeftHand);
+                //HapticAction.Execute(0, duration, frequency, amplitude, SteamVR_Input_Sources.RightHand);
             }
             catch  // If a NullReferenceException is catched, turn off the tactile feedback.
             {

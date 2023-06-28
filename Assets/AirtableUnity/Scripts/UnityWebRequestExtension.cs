@@ -38,14 +38,18 @@ public static class UnityWebRequestExtension
     {
         yield return request.SendWebRequest();
         AirtableUnity.PX.Response response = AirtableUnity.PX.Proxy.GetResponse(request);
+        
+        /*
         var c1 = "<b>";
         var c2 = "</b>";
 
+        
         Debug.Log($"[Response]\n" +
             $"{c1}Url: {c2}{request.url}\n" +
             $"{c1}Method: {c2}{request.method}\n" +
             $"{c1}UploadHandler: {c2}{request.uploadHandler}\n" +
             $"{c1}DownloadHandler: {c2}{request.downloadHandler.text}");
+        */
 
         if (response.Success)
         {

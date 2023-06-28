@@ -25,7 +25,7 @@ public class GetRecordExample : MonoBehaviour
         var msg = "record id: " + record?.id + "\n";
         msg += "field id: " + record?.fields?.Id + "\n";
         msg += "created at: " + record?.createdTime?.ToString();
-        
+
         Debug.Log("[Airtable Unity] - Get Record: " + "\n" + msg);
     }
 }
