@@ -15,6 +15,33 @@
           "qMax": "5",
           "qMaxLabel": "Love",
           "qMandatory": "true"
+        },
+        {
+          "qId": "Q1_2",
+          "qText": "Sample Scale",
+          "qMin": "0",
+          "qMinLabel": "Hate",
+          "qMax": "5",
+          "qMaxLabel": "Love",
+          "qMandatory": "true"
+        },
+        {
+          "qId": "Q1_3",
+          "qText": "Sample Scale",
+          "qMin": "0",
+          "qMinLabel": "Hate",
+          "qMax": "5",
+          "qMaxLabel": "Love",
+          "qMandatory": "true"
+        },
+        {
+          "qId": "Q1_4",
+          "qText": "Sample Scale",
+          "qMin": "0",
+          "qMinLabel": "Hate",
+          "qMax": "5",
+          "qMaxLabel": "Love",
+          "qMandatory": "true"
         }
       ]
     },

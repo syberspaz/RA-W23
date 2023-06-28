@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Valve.VR;
+//using Valve.VR;
 
 namespace VRQuestionnaireToolkit
 {
